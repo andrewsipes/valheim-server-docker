@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim AS build-env
+FROM ubuntu:22.04 AS build-env
 ENV DEBIAN_FRONTEND=noninteractive
 ARG TESTS
 ARG SOURCE_COMMIT
