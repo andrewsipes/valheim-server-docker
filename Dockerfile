@@ -95,6 +95,12 @@ RUN echo "${SOURCE_COMMIT:-unknown}" > /usr/local/etc/git-commit.HEAD
 
 FROM --platform=linux/386 debian:buster-slim AS i386-libs
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Use Debian archive mirrors for old Buster release
+RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list \
+    && sed -i '/deb.debian.org/d' /etc/apt/sources.list.d/* || true \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+    
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
     libc6-dev \
