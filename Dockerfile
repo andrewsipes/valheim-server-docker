@@ -93,7 +93,7 @@ RUN mkdir -p /usr/local/etc/supervisor/conf.d/ \
 RUN echo "${SOURCE_COMMIT:-unknown}" > /usr/local/etc/git-commit.HEAD
 
 
-FROM --platform=linux/386 debian:buster-slim AS i386-libs
+FROM --platform=linux/386 ubuntu:22.04 AS i386-libs
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
@@ -104,7 +104,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
-FROM debian:bullseye-slim
+FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 COPY --from=build-env /usr/local/ /usr/local/
 COPY --from=i386-libs /lib/ld-linux.so.2 /lib/ld-linux.so.2
